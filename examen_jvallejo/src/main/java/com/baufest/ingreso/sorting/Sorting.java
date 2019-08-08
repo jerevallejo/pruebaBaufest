@@ -1,7 +1,5 @@
 package com.baufest.ingreso.sorting;
 
-
-import java.util.Collections;
 import java.util.List;
 
 public class Sorting {
@@ -14,21 +12,30 @@ public class Sorting {
 
 	public static List<Jugador> ordenarPorPuntuacionYNombre(List<Jugador> jugadores){
 
-		Collections.sort(jugadores);
+		jugadores.sort((jug1, jug2) -> {
+			
+			int cmp = Integer.compare(jug2.getPuntuacion(), jug1.getPuntuacion());
+			
+			if(cmp == 0)	
+			{	
+				cmp = jug2.getNombre().compareTo(jug1.getNombre());
+				
+				if(cmp < 0)
+				{
+					return cmp = 1;
+				}
+				
+				cmp = -1;
+			
+			}
+			return cmp;	
+		});
+		
 		for(Jugador jug : jugadores)
 		{
 			System.out.println(jug.getNombre() +" puntuacion "+ jug.getPuntuacion());
 		}
-		/*Jugador jugadorAux = null; 
-	    for (int i = 0; i < jugadores.size(); i++) {
-			for (int j = i++; j < jugadores.size(); j++) {
-				if(jugadores.get(i).getPuntuacion()>jugadores.get(j).getPuntuacion())
-		    	{
-		    		jugadorAux = jugadores.get(i);
-		    		jugadores.get(i).
-		    	}
-			}
-	    }*/
+	
 		return jugadores;
 	    	
         //throw new UnsupportedOperationException();
@@ -42,7 +49,26 @@ public class Sorting {
      * @return la lista ordenada de jugadores
      */
 	public static List<Jugador> ordenarPorPuntuacionPerdidasYNombre(List<Jugador> jugadores){
-        //TODO: resolver
-        throw new UnsupportedOperationException();
+		
+		jugadores.sort((jug1, jug2) -> {
+			int cmp = Integer.compare(jug2.getPuntuacion(), jug1.getPuntuacion());
+			if(cmp == 0)		
+				cmp = Integer.compare(jug1.getPerdidas(), jug2.getPerdidas());
+			if(cmp == 0)	
+			{	
+				cmp = jug2.getNombre().compareTo(jug1.getNombre());
+				
+				if(cmp < 0)
+				{
+					return cmp = 1;
+				}
+				
+				cmp = -1;	
+			}
+			
+			return cmp;	
+		});
+		return jugadores;
 	}
+	
 }
