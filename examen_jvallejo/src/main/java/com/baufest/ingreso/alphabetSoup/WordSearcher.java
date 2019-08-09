@@ -25,7 +25,75 @@ public class WordSearcher {
      * en la sopa de letras.
      * */
     public boolean isPresent(String word){
-        //TODO: resolver
-        throw new UnsupportedOperationException();
+    	
+		
+		int aciertos = 0;
+		int jprevio = 0;
+		int kprevio = 0;
+    	for(int i =0; i < word.length(); i++)
+    	{
+    		boolean  encontrada = false;
+    		char letra = word.charAt(i);
+    		if(!encontrada && aciertos<word.length())
+    		{
+    			for (int j = 0; j < soup.length; j++) {
+					for (int k = 0; k < soup.length; k++) {
+						if(!encontrada) {
+							jprevio = j;
+							kprevio = k;
+						}
+						if(soup[j][k] == letra)
+						{
+							encontrada = true;
+							aciertos ++;
+							i++;
+							boolean sigue = false;
+							letra= word.charAt(i);
+							
+							
+							if(soup[j][k+1] == letra)
+							{ 
+								k++;
+								sigue = true;
+							}
+							if(soup[j][k-1] == letra)
+							{
+								k = k-1;
+								sigue = true;
+							}
+							if(soup[j+1][k] == letra)
+							{
+								j++;
+								sigue = true;
+							}
+							if(soup[j-1][k] == letra)
+							{
+								j = j-1;
+								sigue = true;
+							}
+							if(!sigue)
+							{
+								encontrada = false;
+								aciertos = 0;
+								i--;
+								letra= word.charAt(i);
+							}				
+						}else if(encontrada) {
+							j = jprevio;
+							k = kprevio;
+							i--;
+							letra= word.charAt(i);
+							encontrada = false;
+						}
+					}
+				}
+    		}
+    		
+    	}
+    	if(aciertos != word.length())
+    	{
+    		return false;
+    	}
+    	return true;
     }
 }
