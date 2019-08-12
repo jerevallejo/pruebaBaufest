@@ -30,6 +30,11 @@ public class WordSearcher {
 		int aciertos = 0;
 		int jprevio = 0;
 		int kprevio = 0;
+		int jVisto = 0;
+		int kVisto = 0;
+		int letraprev = 0;
+		int[] ultimaVista = new int[2];
+		
     	for(int i =0; i < word.length(); i++)
     	{
     		boolean  encontrada = false;
@@ -40,49 +45,94 @@ public class WordSearcher {
 					for (int k = 0; k < soup.length; k++) {
 						if(!encontrada) {
 							jprevio = j;
-							kprevio = k;
+ 							kprevio = k;
+				    		letraprev = i;
+				    		
+							//System.out.println(soup[j][k]); 
 						}
-						if(soup[j][k] == letra)
+
+						//System.out.println(soup[j][k]); 
+						if(isValid(j ,k) && !ultimaVisitada(j, k+1, ultimaVista) && soup[j][k] == letra)
 						{
-							encontrada = true;
+
+							//System.out.println(soup[j][k]);
+							//aca puedo preguntar por un booleans para saber si ya entro ?
+							//no se me ocurre que hacer 
 							aciertos ++;
+							encontrada = true;
+							jVisto = j;
+							kVisto = k;
+							if(aciertos == word.length())
+							{
+								return true;
+							}
 							i++;
 							boolean sigue = false;
 							letra= word.charAt(i);
 							
 							
-							if(soup[j][k+1] == letra)
+							
+							
+							if(isValid(j ,k+1) && soup[j][k+1] == letra)
 							{ 
-								k++;
-								sigue = true;
+								if(!ultimaVisitada(j, k+1, ultimaVista))
+								{
+									jVisto = j;
+									kVisto = k++;
+									/*letra= word.charAt(i+1);
+									System.out.println(letra);
+									if(isValid(j ,k+1) && soup[j][k+2] == letra)
+									{
+										sigue = true;
+									}*/
+								}
 							}
-							if(soup[j][k-1] == letra)
-							{
-								k = k-1;
-								sigue = true;
+							if(isValid(j ,k-1) && soup[j][k-1] == letra)
+							{	
+								if(!ultimaVisitada(j, k-1, ultimaVista))
+								{
+									jVisto = j;
+									kVisto = k-1;
+									k = k-2;
+								}
+								/*letra= word.charAt(i+1);
+								System.out.println(letra);
+								if(isValid(j ,k-1) && soup[j][k-1] == letra)
+								{
+									sigue = true;
+								}*/
 							}
-							if(soup[j+1][k] == letra)
+							if(isValid(j+1 ,k) && soup[j+1][k] == letra)
 							{
-								j++;
-								sigue = true;
+								if(!ultimaVisitada(j, k, ultimaVista))
+								{
+									jVisto = j+1;
+									kVisto = k;
+									j++;
+									//le resto poruqe cuando vuelva al for le va a sumar
+									//y yo tengo que ver la letra de abajo de la encontrada
+									
+									k--;
+								}
 							}
-							if(soup[j-1][k] == letra)
+							if(isValid(j-1 ,k) && soup[j-1][k] == letra)
 							{
-								j = j-1;
-								sigue = true;
-							}
-							if(!sigue)
-							{
-								encontrada = false;
-								aciertos = 0;
-								i--;
-								letra= word.charAt(i);
-							}				
-						}else if(encontrada) {
+								if(!ultimaVisitada(j, k, ultimaVista))
+								{
+									jVisto = j-1;
+									kVisto = k;
+									j = j-1;
+									k--;
+								}
+							}			
+					}else if(encontrada) {
+							ultimaVista[0] = jVisto;
+							ultimaVista[1] = kVisto;
 							j = jprevio;
-							k = kprevio;
-							i--;
-							letra= word.charAt(i);
+							k = kprevio -1 ;//le resto uno
+							aciertos = 0;
+							i  = letraprev;
+							letra= word.charAt(letraprev);
 							encontrada = false;
 						}
 					}
@@ -95,5 +145,22 @@ public class WordSearcher {
     		return false;
     	}
     	return true;
+    }
+    
+    private boolean ultimaVisitada(int j, int k, int[] ultimasVistas) {
+		
+		if(ultimasVistas[0]==j && ultimasVistas[1]==k)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public Boolean isValid(int j, int k)
+    {
+    	if(j >= 0 && j < soup.length && k >= 0 && k < soup.length) {
+    		return true;
+    	}
+    	return false;
     }
 }

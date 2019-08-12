@@ -46,7 +46,7 @@ public class WordSearcherTest {
     public void before() {
         wordSearcher = new WordSearcher(alphabetSoup);
     }
-
+    /*
     @Test
     public void testEstaZapatilla() {
         assertTrue(wordSearcher.isPresent("ZAPATILLA"));
@@ -61,12 +61,12 @@ public class WordSearcherTest {
     public void testEstaCazador() {
         assertTrue(wordSearcher.isPresent("CAZADOR"));
     }
-
+*/
     @Test
     public void testEstaReloj() {
         assertTrue(wordSearcher.isPresent("RELOJ"));
     }
-
+/*
     @Test
     public void testEstaOruga() {
         assertTrue(wordSearcher.isPresent("ORUGA"));
@@ -91,5 +91,5 @@ public class WordSearcherTest {
     public void testNoEstaBaufest() {
         assertTrue(!wordSearcher.isPresent("BAUFEST"));
     }
-
+*/
 }
