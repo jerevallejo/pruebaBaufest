@@ -1,5 +1,7 @@
 package com.baufest.ingreso.alphabetSoup;
 
+import java.util.ArrayList;
+
 public class WordSearcher {
 
     private char soup[][];
@@ -30,11 +32,54 @@ public class WordSearcher {
 		int aciertos = 0;
 		int jprevio = 0;
 		int kprevio = 0;
-		int jVisto = 0;
-		int kVisto = 0;
+		//int jVisto = 0;
+		//int kVisto = 0;
 		int letraprev = 0;
 		int[] ultimaVista = new int[2];
+		ArrayList<Casilla> letras = new ArrayList<Casilla>(); 
+		//Casilla letra = new Casilla();
 		
+		for (int i = 0; i < soup.length; i++) {
+			for (int k = 0; k < soup.length; k++) {
+				Casilla letra = new Casilla();
+				if(isValid(i ,k)){
+					letra.setLetra(soup[i][k]);
+					if(isValid(i, k+1))
+						letra.setVecinoDer(soup[i][k+1]);
+					if(isValid(i, k-1))
+						letra.setVecinoIzq(soup[i][k-1]);
+					if(isValid(i+1, k))
+						letra.setVecinoAbajo(soup[i+1][k]);
+					if(isValid(i-1, k))
+						letra.setVecinoArriba(soup[i-1][k]);
+				}
+				letras.add(letra);
+			}
+		}
+		
+	//	letras.forEach(System.out.println("Letra: " + letras.getLetra() + " Izquierda: "+ cas.getVecinoIzq() +
+		//			" Derecha: "+ cas.getVecinoDer()+" Arriba: "+ cas.getVecinoArriba()+" Abajo: "+ cas.getVecinoAbajo()); 
+		//);
+	
+		for(int j =0; j < word.length() ; j++)
+    	{
+			//letras.
+			//letras.contains(word.charAt(j));
+			for(int let = 0; let < letras.size(); let++)
+			{
+				//tengo que ver como hago para la seleccion, porque sigo con el problema cuando una letra
+				//tieen 2 posibles soluciones, puedo itrar una vez y si falla remoevo la opcion que falla 
+				//con un boolean o pasando a null la opcion
+				if(word.charAt(j)==letras.get(let).getLetra())
+				{
+					
+				}
+			}
+    	}
+		
+		return true;
+		
+		/*	
     	for(int i =0; i < word.length(); i++)
     	{
     		boolean  encontrada = false;
@@ -86,7 +131,7 @@ public class WordSearcher {
 										sigue = true;
 									}*/
 								}
-							}
+				/*			}
 							if(isValid(j ,k-1) && soup[j][k-1] == letra)
 							{	
 								if(!ultimaVisitada(j, k-1, ultimaVista))
@@ -101,7 +146,7 @@ public class WordSearcher {
 								{
 									sigue = true;
 								}*/
-							}
+					/*		}
 							if(isValid(j+1 ,k) && soup[j+1][k] == letra)
 							{
 								if(!ultimaVisitada(j, k, ultimaVista))
@@ -146,10 +191,10 @@ public class WordSearcher {
     	}
     	return true;
     }
-    
-    private boolean ultimaVisitada(int j, int k, int[] ultimasVistas) {
+    */
+    private boolean ultimaVisitada(int i, int k, int[] ultimasVistas) {
 		
-		if(ultimasVistas[0]==j && ultimasVistas[1]==k)
+		if(ultimasVistas[0]==i && ultimasVistas[1]==k)
 		{
 			return true;
 		}
